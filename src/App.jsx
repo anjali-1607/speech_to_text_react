@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "regenerator-runtime/runtime";
+import React from "react";
+import SpeechRecognition, {
+    useSpeechRecognition,
+} from "react-speech-recognition";
 
-function App() {
-  const [count, setCount] = useState(0)
+const SpeechRecognitionComponent = () => {
+    const {
+        transcript,
+        resetTranscript,
+        listening,
+        browserSupportsSpeechRecognition,
+    } = useSpeechRecognition();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    if (!browserSupportsSpeechRecognition) {
+        return <p>Your browser does not support speech recognition.</p>;
+    }
 
-export default App
+    const startListening = () =>
+        SpeechRecognition.startListening({ continuous: true });
+
+    const stopListening = () => SpeechRecognition.stopListening();
+
+    return (
+        <div>
+            <h1>Speech to Text Translation</h1>
+            <button onClick={startListening}>Start listening</button>
+            <button onClick={stopListening}>Stop listening</button>
+            <button onClick={resetTranscript}>Reset</button>
+            <p>{listening ? "Listening..." : "Not listening"}</p>
+            <p>Transcript: {transcript}</p>
+        </div>
+    );
+};
+
+export default SpeechRecognitionComponent;
