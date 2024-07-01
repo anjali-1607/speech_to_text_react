@@ -1,0 +1,10 @@
+.mp-image {
+    /* width: 2.5rem; */
+    height: 3rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+.mp-image2 {
+    width: auto;
+    height: 2.5rem;
+}
