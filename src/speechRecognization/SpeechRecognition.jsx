@@ -4,8 +4,7 @@ import "./SpeechRecognition.css";
 import SpeechRecognition, {
     useSpeechRecognition,
 } from "react-speech-recognition";
-import filledMic from "../assets/mp_filled.jpg";
-import activeMic from "../assets/mp_active.jpg";
+import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 
 const SpeechRecognitionComponent = () => {
     const [active, setActive] = useState("filled");
@@ -22,7 +21,7 @@ const SpeechRecognitionComponent = () => {
     }
 
     const startListening = () => {
-        SpeechRecognition.startListening({ continuous: true, language: "hi" });
+        SpeechRecognition.startListening({ continuous: true });
         setActive("active");
     };
 
@@ -32,38 +31,48 @@ const SpeechRecognitionComponent = () => {
     };
 
     return (
-        <div>
-            <h1>Speech to Text Translation</h1>
-            <div
-                style={{
-                    display: "flex",
-                    margin: "2rem 0",
-                    padding: "1rem",
-                    alignItems: "center",
-                }}>
-                {active === "filled" && (
-                    <img
-                        src={filledMic}
-                        alt="mp-filled"
-                        className="mp-image"
-                        onClick={startListening}
-                    />
-                )}
+        <>
+            <div className="container">
+                <div className="grand-parent">
+                    <h2>Speech to Text Translation</h2>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            // margin: "2rem 0",
+                            // padding: "1rem",
+                            alignItems: "center",
+                            width: "100%",
+                            height: "3rem",
+                        }}>
+                        {active === "filled" && (
+                            <FaMicrophoneSlash
+                                size={50}
+                                style={{ cursor: "pointer" }}
+                                onClick={startListening}
+                            />
+                        )}
 
-                {active === "active" && (
-                    <img
-                        src={activeMic}
-                        alt="mp-filled"
-                        className="mp-image2"
-                        onClick={stopListening}
-                    />
-                )}
-                <button onClick={resetTranscript}>Reset</button>
+                        {active === "active" && (
+                            <FaMicrophone
+                                size={40}
+                                style={{ cursor: "pointer" }}
+                                onClick={stopListening}
+                            />
+                        )}
+                    </div>
+
+                    <p>{listening ? " Listening..." : "Not listening"}</p>
+                    <div className="transcript-div">{transcript}</div>
+                    {/* <p>Transcript: {transcript}</p> */}
+                    <button
+                        onClick={resetTranscript}
+                        style={{ marginBottom: "2rem", padding: "5px 10px" }}>
+                        Reset
+                    </button>
+                </div>
             </div>
-
-            <p>{listening ? " Listening..." : "Not listening"}</p>
-            <p>Transcript: {transcript}</p>
-        </div>
+        </>
     );
 };
 
